@@ -20,7 +20,7 @@ const fileStorageEngine = multer.diskStorage({
 });
 
 const upload = multer({storage: fileStorageEngine})
-
+app.use(express.static('img'))
 
 app.get('/index',(req , res)=>{
     res.sendFile(path.join(__dirname, 'public/index.html'))
@@ -30,7 +30,7 @@ app.get('/index',(req , res)=>{
 app.post('/single', upload.single('image') , (req , res) => {
 
 
-    console.log(req.file);
+    console.log(req.file , "    FROM SINGLE UPLOAD API");
     res.send("single upload sexus");
 } )
 
@@ -38,7 +38,6 @@ app.post('/single', upload.single('image') , (req , res) => {
 app.post('/multiple' , upload.array('images' ,  1000) , (req , res)=>{
 
     console.log(req.files);
-    res.send("multiple upload sucess")
 })
 
 app.get('/indexpublic',(req , res)=>{
@@ -72,7 +71,7 @@ app.post('/publicmultiple' , upload.array('images' , 1000) , (req , res)=>{
            
         
     } ) 
-    res.send("multiple  public upload sucess")
+    res.send("http://localhost:5000/"+req.files[0].filename)
 
 })
 
